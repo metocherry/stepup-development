@@ -2,6 +2,12 @@
 
 This guide is written for user who use Mac OS.
 
+Install Deno on Mac or Linux
+
+```bash
+curl -fsSL https://deno.land/x/install/install.sh | sh
+```
+
 ## Install Centos 7
 
 ```bash
@@ -69,3 +75,11 @@ docker container ls
 ```bash
 docker run --rm -it centos:centos7 /bin/bash
 ```
+
+
+
+
+image : 도커 컨테이너를 구성하는 파일 시스템과 실행할 애플리케이션 설정을 하나로 합친 것으로, 컨테이너를 생성하는 템플릿 역할을 한다.
+container : 도커 이미지를 기반으로 생성되며, 파일 시스템과 애플리케이션이 구체화돼 실행되는 상태
+tty: TTY(teletypewriter) 항목은 리눅스 디바이스 드라이브중에서 콘솔이나 터미널을 의미
+console mode : 모니터, 키보드로 직접 본체에 연결된 모드. 2번째 콘솔부터는 가상콘솔. 두번째 모니터, 키보드는 실제로 존재하지 않으므로 '가상(pseudo)' 붙는다.
