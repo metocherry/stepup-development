@@ -1,5 +1,3 @@
-import 'package:equatable/equatable.dart';
-
 import '../value_objects/author.dart';
 import '../value_objects/identity.dart';
 import '../value_objects/isbn.dart';
