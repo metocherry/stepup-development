@@ -1,22 +1,20 @@
 {
   "name": "functional-programming",
   "version": "1.0.0",
-  "description": "",
+  "description": "## Tasks",
   "main": "index.js",
+  "directories": {
+    "example": "example",
+    "test": "test"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
-  "license": "MIT",
+  "license": "ISC",
   "devDependencies": {
-    "@babel/cli": "^7.10.0",
-    "@babel/core": "^7.10.0",
-    "@babel/preset-env": "^7.10.0",
-    "gulp": "^4.0.2",
-    "gulp-babel": "^8.0.0",
-    "gulp-concat": "^2.6.1",
-    "gulp-sourcemaps": "^2.6.5",
-    "typescript": "^3.9.3"
+    "typescript": "^3.9.5",
+    "typescript-deno-plugin": "^1.31.0"
   }
 }

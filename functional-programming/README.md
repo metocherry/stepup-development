@@ -1,26 +1,21 @@
 # Functional Programming With Deno
 
-## Deno
+## Tasks
 
-### Installation
+### run
 
-Homebrew on Mac
-
-```bash
-brew install deno
-```
-
-Shell on Linux or Mack
+Always execute in project root.
 
 ```bash
-curl -fsSL https://deno.land/x/install/install.sh | sh
+tasks/run.sh [filename]
 ```
 
-Chocolatey on Windows
+Example, run the map of example
 
 ```bash
-choco install deno
+tasks/run.sh example/map.example.ts
 ```
+
 
 ## References
 
