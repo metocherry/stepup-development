@@ -1,4 +1,4 @@
-import map from "./lib/map.ts";
+import map from "./lib/map/map.ts";
 
 const Rm = {
   map,
