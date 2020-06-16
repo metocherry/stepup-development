@@ -3,27 +3,27 @@ import { assertEquals } from "https://deno.land/std/testing/asserts.ts";
 import map from "./map.ts";
 
 
-Deno.test("if data is array type, creates an array of values", () => {
-  // arrange
-  const data = [1, 2, 3];
+// Deno.test("if data is array type, creates an array of values", () => {
+//   // arrange
+//   const data = [1, 2, 3];
 
-  // act
-  const actual = map(data, (v) => v * v);
+//   // act
+//   const actual = map(data, (v) => v * v);
 
-  // assert
-  assertEquals(actual, [1, 4, 9]);
-});
+//   // assert
+//   assertEquals(actual, [1, 4, 9]);
+// });
 
-Deno.test("if data is set type, creates an array of values", () => {
-  // arrange
-  const data = new Set([1, 2, 3]);
+// Deno.test("if data is set type, creates an array of values", () => {
+//   // arrange
+//   const data = new Set([1, 2, 3]);
 
-  // act
-  const actual = map(data, (v) => v * v);
+//   // act
+//   const actual = map(data, (v) => v * v);
 
-  // assert
-  assertEquals(actual, [1, 4, 9]);
-});
+//   // assert
+//   assertEquals(actual, [1, 4, 9]);
+// });
 
 Deno.test("if data is map type, creates an array of values", () => {
   // arrange
@@ -36,19 +36,19 @@ Deno.test("if data is map type, creates an array of values", () => {
   assertEquals(actual, [1, 4, 9]);
 });
 
-Deno.test("if data is generator type, creates an array of values", () => {
-  // arrange
-  function* makeIterator() {
-    yield 1;
-    yield 2;
-    yield 3;
-  }
+// Deno.test("if data is generator type, creates an array of values", () => {
+//   // arrange
+//   function* makeIterator() {
+//     yield 1;
+//     yield 2;
+//     yield 3;
+//   }
 
-  const data = makeIterator();
+//   const data = makeIterator();
 
-  // act
-  const actual = map(data, (v) => v * v);
+//   // act
+//   const actual = map(data, (v) => v * v);
 
-  // assert
-  assertEquals(actual, [1, 4, 9]);
-});
+//   // assert
+//   assertEquals(actual, [1, 4, 9]);
+// });
