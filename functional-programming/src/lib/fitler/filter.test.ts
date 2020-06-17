@@ -8,7 +8,7 @@ Deno.test('if elements of array collection return true, create an array of eleme
   const data = [1, 2, 3];
 
   // act
-  const actual = filter(data, (v) => typeof v == "number");
+  const actual = filter((v) => typeof v == "number", data);
 
   // assert
   assertEquals(actual, [1, 2, 3]);
