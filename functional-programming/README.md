@@ -1,5 +1,16 @@
 # Functional Programming With Deno
 
+## Start
+
+```bash
+docker run \
+  -it \
+  --rm \
+  --name node \
+  -v "$(pwd)"/:/app:cached \
+  metocherry/centos8-node-with-deno
+```
+
 ## Tasks
 
 ### run
