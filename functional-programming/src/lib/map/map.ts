@@ -1,4 +1,4 @@
-function map<T, R>(predicate: (data: T) => R, collection: Iterable<T>): R[] {
+export function map<T, R>(predicate: (data: T) => R, collection: Iterable<T>): R[] {
   const result: R[] = [];
 
   for (const d of collection) {
@@ -7,5 +7,3 @@ function map<T, R>(predicate: (data: T) => R, collection: Iterable<T>): R[] {
 
   return result;
 }
-
-export default map;

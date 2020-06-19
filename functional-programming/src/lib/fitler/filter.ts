@@ -1,4 +1,4 @@
-function filter<T>(predicate: (data: T) => boolean, collection: Iterable<T>): T[] {
+export function filter<T>(predicate: (data: T) => boolean, collection: Iterable<T>): T[] {
   const result: T[] = [];
 
   for (const d of collection) {
@@ -7,5 +7,3 @@ function filter<T>(predicate: (data: T) => boolean, collection: Iterable<T>): T[
 
   return result;
 }
-
-export default filter;

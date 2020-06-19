@@ -1,6 +1,6 @@
 import { assertEquals } from "https://deno.land/std/testing/asserts.ts";
 
-import map from "./map.ts";
+import { map } from "./map.ts";
 
 
 Deno.test("if data is array type, creates an array of values", () => {

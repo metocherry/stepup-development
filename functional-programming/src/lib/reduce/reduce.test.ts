@@ -1,6 +1,6 @@
 import { assertEquals } from "https://deno.land/std/testing/asserts.ts";
 
-import reduce from "./reduce.ts";
+import { reduce } from "./reduce.ts";
 
 Deno.test("초기 값과 리턴 타입이 없다면, 컬렉션의 첫번째를 초기값으로 하여 순회하며, 리턴타입은 컬렉션 타입이다", () => {
   // arrange

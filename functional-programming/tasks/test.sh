@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-deno test --importmap import_map.json --unstable src/
+deno test --importmap import_map.json --unstable src/ test/

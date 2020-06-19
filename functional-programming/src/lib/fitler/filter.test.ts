@@ -1,7 +1,7 @@
 
 import { assertEquals } from "https://deno.land/std/testing/asserts.ts";
 
-import filter from "./filter.ts";
+import { filter } from "./filter.ts";
 
 Deno.test('if elements of array collection return true, create an array of elements of it.', () => {
   // arrange
