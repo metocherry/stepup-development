@@ -8,6 +8,12 @@ group = 'com.stepup'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
+bootJar {
+    archiveBaseName = "eatgo-api"
+	archiveVersion = "0.0.1"
+//	archiveFileName = "${archiveBaseName.get()}.${archiveExtension.get()}"
+}
+
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
