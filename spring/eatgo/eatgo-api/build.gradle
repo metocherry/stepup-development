@@ -2,15 +2,18 @@ plugins {
 	id 'org.springframework.boot' version '2.3.1.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 	id 'java'
+
+	// 도커 빌드 환경을 구축 툴
+	id 'com.google.cloud.tools.jib' version '2.4.0'
 }
 
 group = 'com.stepup'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.1'
 sourceCompatibility = '1.8'
 
 bootJar {
     archiveBaseName = "eatgo-api"
-	archiveVersion = "0.0.1"
+//	archiveVersion = "0.0.1"
 //	archiveFileName = "${archiveBaseName.get()}.${archiveExtension.get()}"
 }
 
@@ -36,4 +39,25 @@ dependencies {
 
 test {
 	useJUnitPlatform()
+}
+
+// Docker
+jib {
+	allowInsecureRegistries = true
+
+	from {
+		image = 'openjdk:alpine'
+	}
+
+	to {
+		image = "${project.name}:${project.version}"
+	}
+
+	container {
+		// Set JVM options.
+		jvmFlags = ['-XX:+UnlockExperimentalVMOptions', '-XX:+UseCGroupMemoryLimitForHeap', '-Dserver.port=8080']
+		// Expose different port.
+		ports = ['8080']
+
+	}
 }
