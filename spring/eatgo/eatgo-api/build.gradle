@@ -46,7 +46,7 @@ jib {
 	allowInsecureRegistries = true
 
 	from {
-		image = 'openjdk:alpine'
+		image = 'metocherry/centos7-jdk8'
 	}
 
 	to {
