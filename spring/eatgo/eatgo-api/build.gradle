@@ -12,9 +12,7 @@ version = '0.0.1'
 sourceCompatibility = '1.8'
 
 bootJar {
-    archiveBaseName = "eatgo-api"
-//	archiveVersion = "0.0.1"
-//	archiveFileName = "${archiveBaseName.get()}.${archiveExtension.get()}"
+	archiveFileName = "${archiveBaseName.get()}.${archiveExtension.get()}"
 }
 
 configurations {
@@ -58,6 +56,5 @@ jib {
 		jvmFlags = ['-XX:+UnlockExperimentalVMOptions', '-XX:+UseCGroupMemoryLimitForHeap', '-Dserver.port=8080']
 		// Expose different port.
 		ports = ['8080']
-
 	}
 }
