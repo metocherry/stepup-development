@@ -1,14 +1,19 @@
 package com.stepup.eatgo.interfaces;
 
+import com.stepup.eatgo.application.RestaurantService;
+import com.stepup.eatgo.domain.MenuItemRepository;
+import com.stepup.eatgo.domain.MenuItemRepositoryImpl;
+import com.stepup.eatgo.domain.RestaurantRepository;
+import com.stepup.eatgo.domain.RestaurantRepositoryImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.core.StringContains.containsString;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -24,6 +29,16 @@ class RestaurantControllerTest {
 
     @Autowired
     private MockMvc mvc;
+
+    // 사용할 의존성 주입
+    @SpyBean
+    private RestaurantService restaurantService;
+
+    @SpyBean(RestaurantRepositoryImpl.class)
+    private RestaurantRepository restaurantRepository;
+
+    @SpyBean(MenuItemRepositoryImpl.class)
+    private MenuItemRepository menuItemRepository;
 
     @Test
     public void list() throws Exception {
@@ -46,6 +61,9 @@ class RestaurantControllerTest {
             ))
             .andExpect(content().string(
                 containsString("\"name\":\"Bob zip\"")
+            ))
+            .andExpect(content().string(
+                containsString("Kimchi")
             ));
 
         mvc.perform(get("/restaurants/2020"))
