@@ -26,6 +26,8 @@ repositories {
 }
 
 dependencies {
+    implementation project(':eatgo-common')
+
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
@@ -40,21 +42,21 @@ test {
 }
 
 // Docker
-jib {
-	allowInsecureRegistries = true
-
-	from {
-		image = 'metocherry/centos7-jdk8'
-	}
-
-	to {
-		image = "${project.name}:${project.version}"
-	}
-
-	container {
-		// Set JVM options.
-		jvmFlags = ['-XX:+UnlockExperimentalVMOptions', '-XX:+UseCGroupMemoryLimitForHeap', '-Dserver.port=8080']
-		// Expose different port.
-		ports = ['8080']
-	}
-}
+//jib {
+//	allowInsecureRegistries = true
+//
+//	from {
+//		image = 'metocherry/centos7-jdk8'
+//	}
+//
+//	to {
+//		image = "${project.name}:${project.version}"
+//	}
+//
+//	container {
+//		// Set JVM options.
+//		jvmFlags = ['-XX:+UnlockExperimentalVMOptions', '-XX:+UseCGroupMemoryLimitForHeap', '-Dserver.port=8080']
+//		// Expose different port.
+//		ports = ['8080']
+//	}
+//}

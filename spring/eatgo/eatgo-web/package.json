@@ -1,0 +1,11 @@
+{
+  "private": true,
+  "name": "eatgo-web",
+  "version": "0.0.1",
+  "description": "eatgo web project",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "jinseok.choi <metocherry@gmail.com>"
+}

@@ -1,5 +1,6 @@
-package com.stepup.eatgo.domain;
+package com.setpup.eatgo.domain;
 
+import com.stepup.eatgo.domain.Restaurant;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
