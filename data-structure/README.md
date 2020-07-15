@@ -4,6 +4,25 @@
 
 - [Stack](#stack)
 
+## Prepare
+
+Pull docker image
+
+```shell
+docker pull metocherry/centos8-node-with-deno:latest
+```
+
+And then,
+
+```shell
+docker run \
+  -it \
+  --rm \
+  --name data-structure \
+  -v "$(pwd)"/:/app:cached \
+  metocherry/centos8-node-with-deno
+```
+
 ## Stack
 
 스택은 마지막에 들어온 것이 먼저 나가는 LIFO(Last In First Out) 구조를 가진 자료 구조입니다.  
