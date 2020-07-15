@@ -15,12 +15,7 @@ docker pull metocherry/centos8-node-with-deno:latest
 And then,
 
 ```shell
-docker run \
-  -it \
-  --rm \
-  --name data-structure \
-  -v "$(pwd)"/:/app:cached \
-  metocherry/centos8-node-with-deno
+./tasks/run.sh
 ```
 
 ## Stack
