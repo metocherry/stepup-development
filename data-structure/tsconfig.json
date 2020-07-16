@@ -10,7 +10,7 @@
         "typeRoots": [
             "node_modules/@types"
         ],
-        "lib": [],
+        "lib": ["es2015", "esnext"],
         "sourceMap": true,
         "removeComments": true,
         "noEmit": true,
