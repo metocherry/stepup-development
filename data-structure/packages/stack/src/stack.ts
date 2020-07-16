@@ -7,7 +7,7 @@ export class Stack<T> {
     /**
      * 스택 위치(top)
      */
-    #pointer: number = 0;
+    #pointer: number = -1;
 
     /**
      * 스택 용량
@@ -100,6 +100,6 @@ export class Stack<T> {
      * 스택의 현재 크기를 리턴한다.
      */
     public size(): number {
-        return this.#pointer;
+        return this.#pointer + 1;
     }
 }
