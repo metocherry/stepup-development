@@ -7,7 +7,7 @@ import java.util.List;
 
 @Component
 public class RestaurantRepositoryImpl implements RestaurantRepository {
-    private List<Restaurant> restaurants = new ArrayList<>();
+    private final List<Restaurant> restaurants = new ArrayList<>();
 
     public RestaurantRepositoryImpl() {
         restaurants.add(new Restaurant(1004L, "Bob zip", "Seoul"));
@@ -25,5 +25,12 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
             .filter(r -> r.getId().equals(id))
             .findFirst()
             .orElse(null);
+    }
+
+    @Override
+    public Restaurant save(Restaurant restaurant) {
+        restaurant.setId(1234L);
+        restaurants.add(restaurant);
+        return restaurant;
     }
 }

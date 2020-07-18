@@ -95,9 +95,11 @@ class RestaurantControllerTest {
 
     @Test
     public void create() throws Exception {
-        mvc.perform(post("/restaurants")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content("{\"name\":\"Beryong\",\"address\":\"Busan\"}"))
+        mvc.perform(
+            post("/restaurants")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"name\":\"BeRyong\",\"address\":\"Busan\"}")
+            )
             .andExpect(status().isCreated())
             .andExpect(header().string("location", "/restaurants/1234"))
             .andExpect(content().string("{}"));
