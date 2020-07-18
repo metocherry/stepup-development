@@ -28,8 +28,8 @@ export class Stack<T> {
             return;
         }
 
-        this.#storage[this.#pointer] = data;
         this.#pointer++;
+        this.#storage[this.#pointer] = data;
     }
 
     /**
@@ -41,7 +41,7 @@ export class Stack<T> {
             return;
         }
 
-        delete this.#storage[this.#pointer - 1];
+        delete this.#storage[this.#pointer];
         this.#pointer--;
     }
 
@@ -54,7 +54,7 @@ export class Stack<T> {
             return null;
         }
 
-        return this.#storage[this.#pointer - 1];
+        return this.#storage[this.#pointer];
     }
 
     /**
@@ -63,9 +63,9 @@ export class Stack<T> {
      * @param data
      */
     public indexOf(data: T): number {
-        let index = this.#pointer;
+        let index = this.size();
 
-        while (--index > 0) {
+        while (--index > -1) {
             if (this.#storage[index] === data) {
                 return index;
             }
@@ -78,7 +78,7 @@ export class Stack<T> {
      * 스택을 초기화한다.
      */
     public clear(): void {
-        this.#pointer = 0;
+        this.#pointer = -1;
         this.#storage = {};
     }
 
@@ -86,14 +86,14 @@ export class Stack<T> {
      * 스택이 비어있는지 판단한다.
      */
     public empty(): boolean {
-        return this.#pointer < 1;
+        return this.#pointer < 0;
     }
 
     /**
      * 스택이 가득 차 있는지 판단한다.
      */
     public full(): boolean {
-        return this.#pointer >= this.#max_capacity;
+        return this.size() >= this.#max_capacity;
     }
 
     /**

@@ -121,7 +121,7 @@ export class LinkedList<T> implements Iterable<T> {
      * @param data
      */
     public addAt(index: number, data: T): void {
-        this.asserValidIndex(index);
+        this.assertValidIndex(index);
 
         const newNode = new LinkedNode(data);
 
@@ -156,7 +156,7 @@ export class LinkedList<T> implements Iterable<T> {
      * @param index
      */
     public removeAt(index: number): void {
-        this.asserValidIndex(index);
+        this.assertValidIndex(index);
 
         if (index == 0) {
             const node = this.#head!.next;
@@ -216,7 +216,7 @@ export class LinkedList<T> implements Iterable<T> {
     /**
      * 인덱스가 유효하지 않으면 에러를 발생시킨다.
      */
-    private asserValidIndex(index: number): never | void {
+    private assertValidIndex(index: number): never | void {
         if (!this.isValidIndex(index)) {
             throw new Error("The index is invalid");
         }

@@ -22,7 +22,6 @@ describe("[Stack]", () => {
         expect(stack.size()).toBe(1);
 
         stack.pop();
-        stack.pop();
         expect(stack.size()).toBe(0);
     });
 
@@ -33,7 +32,6 @@ describe("[Stack]", () => {
 
         expect(stack.peek()).toBe(2);
 
-        stack.pop();
         stack.pop();
         stack.pop();
         expect(stack.peek()).toBe(null);
