@@ -5,6 +5,5 @@ pluginManagement {
 }
 rootProject.name = 'eatgo'
 
-//include 'eatgo-common'
 include 'eatgo-admin-api'
 

@@ -9,7 +9,7 @@ public class MenuItem {
     @Id
     private Long id;
 
-    private Long RestaurantId;
+    private Long restaurantId;
 
     private final String name;
 
