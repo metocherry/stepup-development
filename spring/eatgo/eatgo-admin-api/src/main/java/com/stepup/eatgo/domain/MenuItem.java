@@ -1,6 +1,16 @@
 package com.stepup.eatgo.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class MenuItem {
+
+    @Id
+    private Long id;
+
+    private Long RestaurantId;
+
     private final String name;
 
     public MenuItem(String name) {
