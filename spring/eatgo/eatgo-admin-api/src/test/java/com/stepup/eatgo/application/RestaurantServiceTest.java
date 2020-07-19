@@ -7,6 +7,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -39,14 +40,14 @@ class RestaurantServiceTest {
         restaurants.add(new Restaurant(2020L, "Cyber Food", "Seoul"));
 
         given(restaurantRepository.findAll()).willReturn(restaurants);
-        given(restaurantRepository.findById(anyLong())).willReturn(restaurants.get(0));
+        given(restaurantRepository.findById(anyLong())).willReturn(Optional.of(restaurants.get(0)));
     }
 
     private void mockMenuItemRepository() {
         Restaurant restaurant = new Restaurant(1004L, "Bob zip", "Seoul");
         restaurant.addMenuItem(new MenuItem("Kimchi"));
 
-        given(restaurantRepository.findById(anyLong())).willReturn(restaurant);
+        given(restaurantRepository.findById(anyLong())).willReturn(Optional.of(restaurant));
     }
 
     @Test
