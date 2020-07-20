@@ -187,6 +187,27 @@ export class LinkedList<T> implements Iterable<T> {
         this.#pointer = -1;
     }
 
+    // 시간복잡도 O(N^2)
+    // 공간복잡도 O(N)
+    // 해시맵을 쓰면, 공간복잡도가 증가하지만, 해시맵을 쓰지 않으면 시간 복잡도가 증가한다.
+    // removeDuplicates(): void {
+    //     const n = this.#head;
+
+    //     while (n != null && n.next != null) {
+    //         let r = n;
+    //         while (r.next != null) {
+    //             if (n.data == r?.next.data) {
+    //                 r.next = r?.next.next;
+    //             }
+    //             else {
+    //                 r = r?.next;
+    //             }
+    //         }
+
+    //         n = n?.next;
+    //     }
+    // }
+
     /**
      * 인덱스와 일치하는 노드를 조회한다.
      * @param index
