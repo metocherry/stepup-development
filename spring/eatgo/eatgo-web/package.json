@@ -5,7 +5,16 @@
   "description": "eatgo web project",
   "main": "src/index.js",
   "scripts": {
+    "start": "webpack-dev-server --env.development --progress",
+    "build": "webpack --env.development",
     "test": "jest"
   },
-  "author": "jinseok.choi <metocherry@gmail.com>"
+  "author": "jinseok.choi <metocherry@gmail.com>",
+  "devDependencies": {
+    "html-webpack-plugin": "^4.3.0",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0",
+    "webpack-merge": "^5.0.9"
+  }
 }

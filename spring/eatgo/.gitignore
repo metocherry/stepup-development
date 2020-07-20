@@ -5,6 +5,19 @@ build/
 !**/src/main/**
 !**/src/test/**
 
+### NPM ###
+**/node_modules/**
+**/dist/
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+*.log
+npm-debug.log*
+
 ### STS ###
 .apt_generated
 .classpath
