@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
-deno run \
-  --allow-net \
-  --allow-read \
-  lib/main.ts
+docker run \
+  --rm \
+  -it \
+  --name deno-api \
+  -p 3000:3000 \
+  -v "$(pwd)"/:/app:cached \
+  metocherry/centos8-node-with-deno

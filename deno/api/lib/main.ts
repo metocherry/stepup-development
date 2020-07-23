@@ -1,6 +1,8 @@
 import { Application, Router } from "https://deno.land/x/oak/mod.ts";
 import { config } from "https://deno.land/x/dotenv/mod.ts";
 
+import * as iamport from "./iamport/route.ts";
+
 // import notFound from "./error/404.ts";
 // import userRouter from "./user/UserRouter.ts";
 
@@ -12,10 +14,7 @@ const HOST = "http://localhost";
 const PORT = 3000;
 
 const router = new Router();
-router
-    .get("/", (context) => {
-        context.response.body = "JWT Example!";
-    });
+router.get("/", iamport.get);
 
 const app = new Application();
 // app.use(userRouter.routes());
