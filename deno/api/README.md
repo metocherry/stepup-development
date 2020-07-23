@@ -2,6 +2,19 @@
 
 You can find modules you want in https://deno.land/x/
 
+
+## Run with docker
+
+```shell
+docker run \
+  --rm \
+  -it \
+  --name deno-api \
+  -v "$(pwd)"/:/app:cached \
+  metocherry/centos8-node-with-deno
+```
+
+
 ## Command Lines
 
 ### run
