@@ -1,5 +1,9 @@
-FROM centos:latest
+FROM metocherry/centos8-node-with-deno
 
-COPY ./bootstrap.sh /
+EXPOSE 3000
 
-RUN bash /bootstrap.sh
+WORKDIR /app
+
+COPY . .
+
+CMD ["run", "--unstable", "--allow-net", "--allow-env", "--allow-read", "lib/main.ts"]

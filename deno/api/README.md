@@ -62,7 +62,17 @@ Format source files
 deno fmt <file_name>
 ```
 
+# Docker Image
+
+```dockerfile
+FROM centos:latest
+
+COPY ./bootstrap.sh /
+
+RUN bash /bootstrap.sh
+```
 
 ## Pacakges
 
 - [oak](https://deno.land/x/oak) : middleware framework for Deno's http server, including a router middleware.
+- [docker](https://dev.to/fhsinchy/develop-and-dockerize-a-blogging-api-with-deno-oak-and-mysql-170e)
