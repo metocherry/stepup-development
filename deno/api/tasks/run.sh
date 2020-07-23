@@ -3,4 +3,4 @@
 deno run \
   --allow-net \
   --allow-read \
-  main.ts
+  lib/main.ts

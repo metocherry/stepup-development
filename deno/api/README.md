@@ -10,8 +10,22 @@ docker run \
   --rm \
   -it \
   --name deno-api \
+  -p 3000:3000 \
   -v "$(pwd)"/:/app:cached \
   metocherry/centos8-node-with-deno
+```
+
+## Build and Psh Image
+
+```bash
+docker image build -t metocherry/centos8-node-with-deno:latest .
+docker image push -t metocherry/centos8-node-with-deno:latest
+```
+
+error -> denied: requested access to the resource is denied
+
+```bash
+docker login
 ```
 
 
