@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
 deno run \
-    --allow-net \
-    --allow-read \
+    --allow-env \
     lib/main.ts

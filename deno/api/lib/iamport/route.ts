@@ -5,19 +5,21 @@ import { Authentication } from "./entities/authentication.ts";
 import { User } from "./entities/user.ts";
 
 export async function get(context: Context) {
+    const imp_uid = "";
+
     const response1 = await fetch("https://api.iamport.kr/users/getToken", {
         method: "POST",
         cache: "no-cache",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-            imp_key: "REST API키",
-            imp_secret: "REST API SECRET"
+            imp_key: "",
+            imp_secret: ""
         }),
     });
 
     const json1: ResponseEntity<Authentication> = await response1.json();
 
-    const response2 = await fetch("https://api.iamport.kr/certifications/${imp_uid}", {
+    const response2 = await fetch(`https://api.iamport.kr/certifications/${imp_uid}`, {
         method: "GET",
         headers: {
             "Conetent-Type": "application/json",
