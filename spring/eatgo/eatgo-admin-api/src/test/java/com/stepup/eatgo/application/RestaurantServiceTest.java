@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,18 +37,33 @@ class RestaurantServiceTest {
 
     private void mockRestaurantRepository() {
         List<Restaurant> restaurants = new ArrayList<>();
-        restaurants.add(new Restaurant(1004L, "Bob zip", "Seoul"));
-        restaurants.add(new Restaurant(2020L, "Cyber Food", "Seoul"));
+
+        restaurants.add(
+            Restaurant.builder()
+                .id(1004L)
+                .name("Bob zip")
+                .address("Seoul")
+                .build());
+
+        restaurants.add(
+            Restaurant.builder()
+                .id(2020L)
+                .name("Cyber Food")
+                .address("Seoul")
+                .build());
 
         given(restaurantRepository.findAll()).willReturn(restaurants);
         given(restaurantRepository.findById(anyLong())).willReturn(Optional.of(restaurants.get(0)));
     }
 
     private void mockMenuItemRepository() {
-        Restaurant restaurant = new Restaurant(1004L, "Bob zip", "Seoul");
-        restaurant.addMenuItem(new MenuItem("Kimchi"));
+        List<MenuItem> menuItems = new ArrayList<>();
+        menuItems.add(MenuItem.builder()
+            .name("Kimchi")
+            .build());
 
-        given(restaurantRepository.findById(anyLong())).willReturn(Optional.of(restaurant));
+        given(menuItemRepository.findAllByRestaurantId(anyLong()))
+            .willReturn(menuItems);
     }
 
     @Test
@@ -69,13 +85,36 @@ class RestaurantServiceTest {
 
     @Test
     public void addRestaurant() {
-        Restaurant restaurant = new Restaurant("BeRyong", "Busan");
-        Restaurant saved = new Restaurant(1234L, "BeRyong", "Busan");
+        given(restaurantRepository.save(any())).will(invocation -> {
+            Restaurant restaurant = invocation.getArgument(0);
+            restaurant.setId(1234L);
 
-        given(restaurantRepository.save(any())).willReturn(saved);
+            return restaurant;
+        });
+
+        Restaurant restaurant = Restaurant.builder()
+            .name("BeRyong")
+            .address("Busan")
+            .build();
 
         Restaurant created = restaurantService.addRestaurant(restaurant);
 
         assertEquals(created.getId(), 1234L);
+    }
+
+    @Test
+    public void updateRestaurant() {
+        Restaurant restaurant = Restaurant.builder()
+            .id(1004L)
+            .name("Bob zip")
+            .address("Seoul")
+            .build();
+
+        given(restaurantRepository.findById(1004L)).willReturn(Optional.of(restaurant));
+
+        restaurantService.updateRestaurant(1004L, "Sool zip", "Busan");
+
+        assertEquals(restaurant.getName(), "Sool zip");
+        assertEquals(restaurant.getAddress(), "Busan");
     }
 }

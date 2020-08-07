@@ -13,6 +13,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.core.StringContains.containsString;
@@ -20,8 +21,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 // @ExtendWith(SpringExtension.class)
@@ -42,8 +42,20 @@ class RestaurantControllerTest {
     @Test
     public void list() throws Exception {
         List<Restaurant> restaurants = new ArrayList<>();
-        restaurants.add(new Restaurant(1004L, "Bob zip", "Seoul"));
-        restaurants.add(new Restaurant(2020L, "Cyber Food", "Seoul"));
+        restaurants.add(
+            Restaurant.builder()
+            .id(1004L)
+            .name("Bob zip")
+            .address("Seoul")
+            .build()
+        );
+        restaurants.add(
+            Restaurant.builder()
+                .id(2020L)
+                .name("Cyber Food")
+                .address("Seoul")
+                .build()
+        );
 
         given(restaurantService.getRestaurants()).willReturn(restaurants);
 
@@ -59,8 +71,18 @@ class RestaurantControllerTest {
 
     @Test
     public void detail() throws Exception {
-        Restaurant restaurant1 = new Restaurant(1004L, "Bob zip", "Seoul");
-        restaurant1.addMenuItem(new MenuItem("Kimchi"));
+        Restaurant restaurant1 = Restaurant.builder()
+            .id(1004L)
+            .name("Bob zip")
+            .address("Seoul")
+            .build();
+
+        List<MenuItem> menuItems1 = new ArrayList<>();
+        menuItems1.add(MenuItem.builder()
+            .name("Kimchi")
+            .build());
+
+        restaurant1.setMenuItems(menuItems1);
 
         given(restaurantService.getRestaurant(anyLong())).willReturn(restaurant1);
 
@@ -77,8 +99,18 @@ class RestaurantControllerTest {
             ));
 
 
-        Restaurant restaurant2 = new Restaurant(2020L, "Cyber Food", "Seoul");
-        restaurant2.addMenuItem(new MenuItem("Cyber Food"));
+        Restaurant restaurant2 = Restaurant.builder()
+            .id(2020L)
+            .name("Cyber Food")
+            .address("Seoul")
+            .build();
+
+        List<MenuItem> menuItems2 = new ArrayList<>();
+        menuItems2.add(MenuItem.builder()
+            .name("Cyber Food")
+            .build());
+
+        restaurant2.setMenuItems(menuItems2);
 
         given(restaurantService.getRestaurant(anyLong())).willReturn(restaurant2);
 
@@ -95,6 +127,15 @@ class RestaurantControllerTest {
 
     @Test
     public void create() throws Exception {
+        given(restaurantService.addRestaurant(any())).will(invocation -> {
+            Restaurant restaurant = invocation.getArgument(0);
+            return Restaurant.builder()
+                .id(1234L)
+                .name(restaurant.getName())
+                .address(restaurant.getAddress())
+                .build();
+        });
+
         mvc.perform(
             post("/restaurants")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -105,5 +146,15 @@ class RestaurantControllerTest {
             .andExpect(content().string("{}"));
 
         verify(restaurantService).addRestaurant(any());
+    }
+
+    @Test
+    public void update() throws Exception {
+        mvc.perform(patch("/restaurants/1004")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content("{\"name\":\"JOKER Bar\", \"address\": \"Busan\"}"))
+            .andExpect(status().isOk());
+
+        verify(restaurantService).updateRestaurant(1004L, "JOKER Bar", "Busan");
     }
 }
