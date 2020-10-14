@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RequestAnimationFrame</title>
+</head>
+<body>
+  <div id="counter"></div>
+
+  <script>
+    const counter = document.getElementById('counter');
+    let num = 0;
+
+    const countUp = () => {
+      num++;
+      counter.textContent = num;
+
+      if (num <= 100000) {
+        window.requestAnimationFrame(countUp);
+      }
+    };
+
+    const log = {
+      info() {
+        console.log('log.info', this);
+      }
+    };
+
+    function Test() {
+    }
+
+    Test.prototype.log = function () {
+      console.log('test', this);
+      log.info();
+    };
+
+    let test = new Test();
+    test.log();
+
+
+    // window.requestAnimationFrame(countUp);
+
+    // window.cancelAnimationFrame(countUp);
+  </script>
+</body>
+</html>
