@@ -1,0 +1,52 @@
+{
+  "compilerOptions": {
+    /* Basic Options */
+    "baseUrl": "./",
+    "target": "es2015",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "sourceMap": true,
+    "removeComments": true,
+    "noEmit": true,
+
+    "outDir": "./dist/",
+    "jsx": "react",
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+
+    /* Strict Type-Checking Options */
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+
+    /* Additional Checks */
+    "noImplicitReturns": true,
+
+    /* Advanced Options */
+    "skipLibCheck": true,                       /* Skip type checking of declaration files. */
+    "forceConsistentCasingInFileNames": true,   /* Disallow inconsistently-cased references to the same file. */
+
+    "paths": {
+      "@adapters/*": ["src/adapters/*"],
+      "@domains/*": ["src/domains/*"],
+      "@frameworks/*": ["src/frameworks/*"],
+      "@di/*": ["src/di/*"]
+    }
+  },
+  "include": [
+    "./src/**/*"
+  ]
+}
