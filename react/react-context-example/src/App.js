@@ -1,34 +1,44 @@
-import React, { useState, useCallback } from 'react';
-import { ItemList, NewItem } from './components/Items';
+import React from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { TodoProvider } from './todo/store/TodoContext';
+import { AuthProvider, useAuthContext, logout } from './auth/AuthContext';
+import Todo from './todo/Todo';
+import Login from './auth/Login';
 import './App.css';
-import TodoContext from './TodoContext';
-
-const initialItems = ['Setup basic components', 'Add some styling'];
+import PrivateRoute from './PrivateRoute';
 
 function App() {
-  const [items, setItems] = useState(initialItems);
-
-  const handleAddItem = useCallback((item) => {
-    setItems((prevState) => [...prevState, item]);
-  }, []);
-
-  function handleRemoveItem(index) {
-    const copy = [...items];
-    copy.splice(index, 1);
-    setItems(copy);
-  }
-
   return (
-    <TodoContext.Provider value={{ items, add: handleAddItem, remove: handleRemoveItem }}>
-      <div className="App">
-        <header className="App-header">
-          <h2>🚀 ToDo App</h2>
-          <NewItem />
-          <ItemList />
-        </header>
-      </div>
-    </TodoContext.Provider>
+    <AuthProvider>
+      <Router>
+        <div className="App">
+          <Greeting />
+          <Switch>
+            <PrivateRoute path="/todos">
+              <TodoProvider>
+                <Todo />
+              </TodoProvider>
+            </PrivateRoute>
+            <Route path="/">
+              <Login />
+            </Route>
+          </Switch>
+        </div>
+      </Router>
+    </AuthProvider>
   );
+}
+
+function Greeting() {
+  const { auth, dispatch } = useAuthContext();
+
+  if (auth.isLoggedIn)
+    return (
+      <p>
+        Hello, {auth.name}!<button onClick={(e) => dispatch(logout())}>Logout</button>
+      </p>
+    );
+  return <p>You are not logged in</p>;
 }
 
 export default App;
