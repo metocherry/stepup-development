@@ -1,9 +1,13 @@
 const path = require('path');
 
+const webpack = require('webpack');
+const PnpWebpackPlugin = require('pnp-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const postcssNormalize = require('postcss-normalize');
 
-const resovle = (...args) => path.resolve.apply(null, [__dirname, ...args]);
+const resolve = (...args) => path.resolve.apply(null, [__dirname, ...args]);
 
 const paths = {
   root: (...args) => resolve(...args),
@@ -11,49 +15,180 @@ const paths = {
   dist: (...args) => resolve('dist', ...args),
 };
 
-const createWebpackConfig = (env) => {
-  console.log(env);
+const createWebpackConfig = (env = {}) => {
+  const isEnvDevelopment = !!env.development;
+  const isEnvProduction = !!env.production;
+
+  const getStyleLoaders = (cssOptions, preProcessor) => {
+    const loaders = [
+      isEnvDevelopment && require.resolve('style-loader'),
+      isEnvProduction && {
+        loader: MiniCssExtractPlugin.loader,
+        options: {},
+      },
+      {
+        loader: require.resolve('css-loader'),
+        options: cssOptions,
+      },
+      {
+        loader: require.resolve('postcss-loader'),
+        options: {
+          // Necessary for external CSS imports to work
+          // https://github.com/facebook/create-react-app/issues/2677
+          ident: 'postcss',
+          plugins: () => [
+            require('postcss-preset-env')({
+              autoprefixer: {
+                flexbox: 'no-2009',
+              },
+              stage: 3,
+            }),
+            postcssNormalize(),
+          ],
+          sourceMap: true,
+        },
+      },
+    ].filter(Boolean);
+
+    if (preProcessor) {
+      loaders.push(
+        {
+          loader: require.resolve('resolve-url-loader'),
+          options: {
+            sourceMap: true,
+            root: paths.appSrc,
+          },
+        },
+        {
+          loader: require.resolve(preProcessor),
+          options: {
+            sourceMap: true,
+          },
+        },
+      );
+    }
+
+    return loaders;
+  };
 
   const config = {
-    mode: 'development',
-    devtools: 'sourcemap',
+    target: 'web',
+    mode: isEnvProduction ? 'production' : 'development',
+    // Stop compilation early in production
+    bail: isEnvProduction,
+    devtool: isEnvProduction ? 'source-map' : isEnvDevelopment && 'cheap-module-source-map',
     entry: {
-      app: [],
+      app: [paths.source('index.js')],
     },
     output: {
-      path: resovle('dist'),
+      path: resolve('dist'),
+      pathinfo: isEnvDevelopment,
+      filename: 'static/js/[name].[contenthash:8].js',
+      chunkFilename: 'static/js/[name].[contenthash:8].chunk.js',
+      // this defaults to 'window', but by setting it to 'this' then
+      // module chunks which are built will work in web workers as well.
+      globalObject: 'this',
     },
     module: {
       rules: [
         {
-          test: /\.s?css$/,
-          use: [
-            { loader: 'style-loader' },
-            { loader: 'css-loader', options: { sourcemap: true, importLoaders: 2 } },
+          oneOf: [
             {
-              loader: 'postcss-loaer',
-              options: {
-                postcssOptions: {
-                  parser: 'postcss-js',
-                  plugins: ['postcss-preset-env'],
-                },
-                execute: true,
-                sourceMap: true,
-              },
+              test: /\.css$/,
+              exclude: /\.modue\.css$/,
+              use: getStyleLoaders({
+                importLoaders: 1,
+                sourcemap: true,
+              }),
+              // Don't consider CSS imports dead code even if the
+              // containing package claims to have no side effects.
+              // Remove this when webpack adds a warning or an error for this.
+              // See https://github.com/webpack/webpack/issues/6571
+              sideEffects: true,
             },
-            { loaer: 'sass-loader', options: { sourceMap: true } },
+            {
+              test: /\.modue\.css$/,
+              use: getStyleLoaders({
+                importLoaders: 1,
+                sourcemap: true,
+                modules: {
+                  localIdentContext: paths.source(),
+                  localIdentName: '[path][name]__[local]--[hash:base64:5]',
+                },
+              }),
+            },
+            {
+              test: /\.scss$/,
+              exclude: /\.module\.scss$/,
+              use: getStyleLoaders(
+                {
+                  importLoaders: 3,
+                  sourceMap: true,
+                },
+                'sass-loader',
+              ),
+              sideEffects: true,
+            },
+            {
+              test: /\.module\.scss$/,
+              use: getStyleLoaders(
+                {
+                  importLoaders: 3,
+                  sourceMap: true,
+                  modules: {
+                    localIdentContext: paths.source(),
+                    localIdentName: '[path][name]__[local]--[hash:base64:5]',
+                  },
+                },
+                'sass-loader',
+              ),
+            },
           ],
         },
       ],
     },
-    resolve: {},
+    resolve: {
+      modules: ['node_modules'],
+      extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
+      alias: {},
+    },
     plugins: [
-      HtmlWebpackPlugin({
+      PnpWebpackPlugin,
+      new webpack.DefinePlugin({
+        APP_VERSION: JSON.stringify('0.0.1'),
+      }),
+      // isEnvDevelopment && new webpack.HotModuleReplacementPlugin(),
+      isEnvProduction &&
+        new MiniCssExtractPlugin({
+          filename: 'static/css/[name].[contenthash:8].css',
+          chunkFilename: 'static/css/[name].[contenthash:8].chunk.css',
+        }),
+      new HtmlWebpackPlugin({
         template: paths.source('index.html'),
+        inject: true,
       }),
       new CleanWebpackPlugin(),
-    ],
+    ].filter(Boolean),
+    resolveLoader: {
+      plugins: [
+        // Also related to Plug'n'Play, but this time it tells webpack to load its loaders
+        // from the current package.
+        PnpWebpackPlugin.moduleLoader(module),
+      ],
+    },
+    node: false,
   };
+
+  if (isEnvDevelopment) {
+    config.devServer = {
+      contentBase: paths.dist(),
+      compress: true,
+      port: 9000,
+      disableHostCheck: true,
+      // historyApiFallback: true,
+      // hot: true,
+    };
+  }
 
   return config;
 };
