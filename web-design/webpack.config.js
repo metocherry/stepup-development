@@ -33,18 +33,17 @@ const createWebpackConfig = (env = {}) => {
       {
         loader: require.resolve('postcss-loader'),
         options: {
-          // Necessary for external CSS imports to work
-          // https://github.com/facebook/create-react-app/issues/2677
-          ident: 'postcss',
-          plugins: () => [
-            require('postcss-preset-env')({
-              autoprefixer: {
-                flexbox: 'no-2009',
-              },
-              stage: 3,
-            }),
-            postcssNormalize(),
-          ],
+          postcssOptions: {
+            plugins: [
+              require('postcss-preset-env')({
+                autoprefixer: {
+                  flexbox: 'no-2009',
+                },
+                stage: 3,
+              }),
+              postcssNormalize(),
+            ],
+          },
           sourceMap: true,
         },
       },
@@ -56,7 +55,7 @@ const createWebpackConfig = (env = {}) => {
           loader: require.resolve('resolve-url-loader'),
           options: {
             sourceMap: true,
-            root: paths.appSrc,
+            root: paths.source(),
           },
         },
         {
@@ -78,7 +77,7 @@ const createWebpackConfig = (env = {}) => {
     bail: isEnvProduction,
     devtool: isEnvProduction ? 'source-map' : isEnvDevelopment && 'cheap-module-source-map',
     entry: {
-      app: [paths.source('index.js')],
+      app: [paths.source('index.tsx')],
     },
     output: {
       path: resolve('dist'),
@@ -93,6 +92,22 @@ const createWebpackConfig = (env = {}) => {
       rules: [
         {
           oneOf: [
+            {
+              test: /\.(ts|js)x?$/,
+              include: paths.source(),
+              use: {
+                loader: 'babel-loader',
+                options: {
+                  // This is a feature of `babel-loader` for webpack (not Babel itself).
+                  // It enables caching results in ./node_modules/.cache/babel-loader/
+                  // directory for faster rebuilds.
+                  cacheDirectory: true,
+                  // See #6846 for context on why cacheCompression is disabled
+                  cacheCompression: false,
+                  compact: isEnvProduction,
+                },
+              },
+            },
             {
               test: /\.css$/,
               exclude: /\.modue\.css$/,
