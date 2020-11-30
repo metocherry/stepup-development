@@ -1,32 +1,38 @@
-import React, { useLayoutEffect } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
+import loadable from '@loadable/component';
 
-import StickyContents from './pages/StickyContents';
+const StickyContents = loadable(() => import(/* webpackChunkName: "StickyContents" */ './pages/StickyContents'));
+const FullPageScroll = loadable(() => import(/* webpackChunkName: "FullPageScroll" */ './pages/FullPageScroll'));
+
+const Navigation: React.FC = () => {
+  return (
+    <div>
+      <nav>
+        <ul>
+          <li>
+            <Link to="/sticky-contents">Sticky Contents</Link>
+          </li>
+          <li>
+            <Link to="/full-page-scroll">Full Page Scroll</Link>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  );
+}
 
 const App: React.FC = () => {
-  useLayoutEffect(() => {
-    window.addEventListener('DOMContentLoaded', () => {
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          const id = entry.target.getAttribute('id');
-          if (entry.intersectionRatio > 0) {
-            window.document.querySelector(`nav li a[href="#${id}"]`)?.parentElement?.classList.add('active');
-          } else {
-            window.document.querySelector(`nav li a[href="#${id}"]`)?.parentElement?.classList.remove('active');
-          }
-        });
-      });
-
-      // Track all sections that have an `id` applied
-      document.querySelectorAll('section[id]').forEach((section) => {
-        observer.observe(section);
-      });
-    });
-  }, []);
-
   return (
     <React.StrictMode>
-      <StickyContents />
+      <BrowserRouter>
+        <Switch>
+          <Route exact path='/' component={Navigation} />
+          <Route exact path='/sticky-contents' component={StickyContents} />
+          <Route exact path='/full-page-scroll' component={FullPageScroll} />
+        </Switch>
+      </BrowserRouter>
     </React.StrictMode>
   );
 };

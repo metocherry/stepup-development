@@ -1,8 +1,28 @@
-import React from 'react';
+import React, { useLayoutEffect } from 'react';
 
-import './sticky-contents.scss';
+import './index.scss';
 
 const StickyContents: React.FC = () => {
+  useLayoutEffect(() => {
+    window.addEventListener('DOMContentLoaded', () => {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          const id = entry.target.getAttribute('id');
+          if (entry.intersectionRatio > 0) {
+            window.document.querySelector(`nav li a[href="#${id}"]`)?.parentElement?.classList.add('active');
+          } else {
+            window.document.querySelector(`nav li a[href="#${id}"]`)?.parentElement?.classList.remove('active');
+          }
+        });
+      });
+
+      // Track all sections that have an `id` applied
+      document.querySelectorAll('section[id]').forEach((section) => {
+        observer.observe(section);
+      });
+    });
+  }, []);
+
   return (
     <main>
       <div>
